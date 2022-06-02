@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@ngxs/devtools-plugin": "^3.7.3"
+  }
+}
