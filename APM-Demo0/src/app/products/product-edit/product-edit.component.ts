@@ -7,6 +7,8 @@ import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { GenericValidator } from '../../shared/generic-validator';
 import { NumberValidators } from '../../shared/number.validator';
+import { AddProduct } from '../product.actions';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'pm-product-edit',
@@ -25,7 +27,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
 
-  constructor(private fb: FormBuilder, private productService: ProductService) {
+  constructor(private fb: FormBuilder, private productService: ProductService, private store: Store) {
 
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
@@ -132,6 +134,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         const product = { ...originalProduct, ...this.productForm.value };
 
         if (product.id === 0) {
+          this.store.dispatch(new AddProduct(product))
           this.productService.createProduct(product).subscribe({
             next: p => this.productService.changeSelectedProduct(p),
             error: err => this.errorMessage = err
