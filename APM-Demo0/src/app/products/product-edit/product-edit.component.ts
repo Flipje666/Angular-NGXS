@@ -1,20 +1,24 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { GenericValidator } from '../../shared/generic-validator';
 import { NumberValidators } from '../../shared/number.validator';
 import { AddProduct } from '../product.actions';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { ProductState } from '../product.state';
 
 @Component({
   selector: 'pm-product-edit',
   templateUrl: './product-edit.component.html'
 })
 export class ProductEditComponent implements OnInit, OnDestroy {
+@Select(ProductState.getSelectedProduct) currentProduct$: Observable<Product>;
+
+
   pageTitle = 'Product Edit';
   errorMessage = '';
   productForm: FormGroup;
@@ -59,10 +63,12 @@ export class ProductEditComponent implements OnInit, OnDestroy {
       description: ''
     });
 
+    this.currentProduct$.subscribe((p) => this.displayProduct(p));
+
     // Watch for changes to the currently selected product
-    this.sub = this.productService.selectedProductChanges$.subscribe(
-      currentProduct => this.displayProduct(currentProduct)
-    );
+    // this.sub = this.productService.selectedProductChanges$.subscribe(
+    //   currentProduct => this.displayProduct(currentProduct)
+    // );
 
     // Watch for value changes for validation
     this.productForm.valueChanges.subscribe(
@@ -135,11 +141,13 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 
         if (product.id === 0) {
           this.store.dispatch(new AddProduct(product))
-          this.productService.createProduct(product).subscribe({
-            next: p => this.productService.changeSelectedProduct(p),
-            error: err => this.errorMessage = err
-          });
+          // this.productService.createProduct(product).subscribe({
+          //   next: p => this.productService.changeSelectedProduct(p),
+          //   error: err => this.errorMessage = err
+          // });
         } else {
+          // Implement Update Action
+          // this.store.dispatch(new UpdateProduct(product))
           this.productService.updateProduct(product).subscribe({
             next: p => this.productService.changeSelectedProduct(p),
             error: err => this.errorMessage = err
