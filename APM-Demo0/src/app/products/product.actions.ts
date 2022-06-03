@@ -10,3 +10,13 @@ export class GetProducts {
     static readonly type = '[Product] Get';
 }
 
+export class ToggleProductCode {
+    static readonly type = '[Product] Toggle Show Code'
+}
+
+export class SelectProduct {
+    static readonly type = '[Product] Select'
+
+    constructor(public product: Product) {}
+}
+

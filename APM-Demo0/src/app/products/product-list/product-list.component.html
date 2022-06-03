@@ -11,7 +11,7 @@
               *ngFor="let product of products.products"
               [ngClass]="{'active': product?.id === selectedProduct?.id}"
               (click)="productSelected(product)">{{ product.productName }}
-        <ng-container *ngIf="displayCode">
+        <ng-container *ngIf="products.showProductCode">
           ({{ product.productCode }})
         </ng-container>
       </button>
@@ -25,7 +25,7 @@
           <input class="form-check-input"
                  type="checkbox"
                  (change)="checkChanged()"
-                 [checked]="displayCode">
+                 [checked]="(products$ | async).showProductCode">
           Display Product Code
         </label>
       </div>

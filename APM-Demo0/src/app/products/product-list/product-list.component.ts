@@ -3,8 +3,8 @@ import { Subscription, Observable } from 'rxjs';
 import { ProductService } from '../product.service';
 import { Select, Store } from '@ngxs/store';
 import { Product } from '../product';
-import { ProductStateModel, PRODUCT_STATE_TOKEN } from '../product.state';
-import { GetProducts } from '../product.actions';
+import { ProductState, ProductStateModel, PRODUCT_STATE_TOKEN } from '../product.state';
+import { GetProducts, SelectProduct, ToggleProductCode } from '../product.actions';
 
 @Component({
   selector: 'pm-product-list',
@@ -13,26 +13,26 @@ import { GetProducts } from '../product.actions';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   @Select(PRODUCT_STATE_TOKEN) products$: Observable<ProductStateModel>;
-  // public products$: Observable<Product[]>;
+  @Select(ProductState.getSelectedProduct) currentProduct$: Observable<Product>;
   
   pageTitle = 'Products';
   errorMessage: string;
-
-  displayCode: boolean;
-
-  products: Product[];
 
   // Used to highlight the selected product in the list
   selectedProduct: Product | null;
   sub: Subscription;
 
+  
   constructor(private productService: ProductService, private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetProducts());
-    // this.sub = this.productService.selectedProductChanges$.subscribe(
-    //   currentProduct => this.selectedProduct = currentProduct
-    // );
+
+    this.currentProduct$.subscribe((p) => this.selectedProduct = p);
+
+    this.sub = this.productService.selectedProductChanges$.subscribe(
+      currentProduct => this.selectedProduct = currentProduct
+    );
 
     // this.productService.getProducts().subscribe({
     //   next: (products: Product[]) => this.products = products,
@@ -45,7 +45,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   checkChanged(): void {
-    this.displayCode = !this.displayCode;
+    this.store.dispatch(new ToggleProductCode());
   }
 
   newProduct(): void {
@@ -53,6 +53,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   productSelected(product: Product): void {
+    this.store.dispatch(new SelectProduct(product));
+
     this.productService.changeSelectedProduct(product);
   }
 
