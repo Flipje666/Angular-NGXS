@@ -22,13 +22,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
   selectedProduct: Product | null;
   sub: Subscription;
 
-  
+
   constructor(private productService: ProductService, private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetProducts());
 
-    this.currentProduct$.subscribe((p) => this.selectedProduct = p);
+    // this.currentProduct$.subscribe((p) => this.selectedProduct = p);
 
     this.sub = this.productService.selectedProductChanges$.subscribe(
       currentProduct => this.selectedProduct = currentProduct
@@ -53,7 +53,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   productSelected(product: Product): void {
-    this.store.dispatch(new SelectProduct(product));
+    // this.store.dispatch(new SelectProduct(product));
 
     this.productService.changeSelectedProduct(product);
   }
