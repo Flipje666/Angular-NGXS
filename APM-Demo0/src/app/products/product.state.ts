@@ -5,8 +5,9 @@ import { AddProduct, GetProducts, SelectProduct, ToggleProductCode } from './pro
 import { ProductService } from './product.service';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { AppState } from '../app.state';
 
-export class ProductStateModel {
+export interface ProductStateModel extends AppState {
     showProductCode: boolean;
     currentProduct: Product;
     products: Product[];

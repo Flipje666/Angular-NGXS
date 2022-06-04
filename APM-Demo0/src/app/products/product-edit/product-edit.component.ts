@@ -77,7 +77,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
   }
 
   // Also validate on blur
@@ -121,12 +121,13 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     if (product && product.id) {
       if (confirm(`Really delete the product: ${product.productName}?`)) {
         this.productService.deleteProduct(product.id).subscribe({
+          //TODO: Implement ClearCurrentProduct Action
           next: () => this.productService.changeSelectedProduct(null),
           error: err => this.errorMessage = err
         });
       }
     } else {
-      // No need to delete, it was never saved
+      // TODO: See above
       this.productService.changeSelectedProduct(null);
     }
   }
@@ -146,7 +147,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
           //   error: err => this.errorMessage = err
           // });
         } else {
-          // Implement Update Action
+          // TODO: Implement Update Action
           // this.store.dispatch(new UpdateProduct(product))
           this.productService.updateProduct(product).subscribe({
             next: p => this.productService.changeSelectedProduct(p),
