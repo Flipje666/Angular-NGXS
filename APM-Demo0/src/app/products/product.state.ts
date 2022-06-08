@@ -7,6 +7,8 @@ import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AppState } from '../app.state';
 
+//TODO: Add error handling to async actions
+
 export interface ProductStateModel extends AppState {
     showProductCode: boolean;
     currentProduct: Product;

@@ -50,7 +50,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   newProduct(): void {
 
-    //TODO Implement NewProduct Action to not use the SelectProduct action or the service.
+    //TODO Implement NewProduct Action to not use the SelectProduct action or the service. (You'll still need to set the currentProduct in the state)
     this.store.dispatch(new SelectProduct(this.productService.newProduct()));
     // this.productService.changeSelectedProduct(this.productService.newProduct());
   }
