@@ -42,7 +42,8 @@ export class ProductState {
 
     @Action(GetProducts)
     get(ctx: StateContext<ProductStateModel>) {
-        return this.productService.getProducts().pipe(tap(p => ctx.setState(
+        return this.productService.getProducts().pipe(
+            tap(p => ctx.setState(
             patch({
                 products: p
             })
