@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   checkChanged(): void {
+    //TODO: Implementeer een User state om deze check te registreren
     this.maskUserName = !this.maskUserName;
   }
 

@@ -15,6 +15,7 @@ export class MenuComponent implements OnInit {
   }
 
   get userName(): string {
+    //TODO: Haal de currentUser op uit de state ipv de authService (de isLoggedIn check kan hiermee ook worden vervangen)
     if (this.authService.currentUser) {
       return this.authService.currentUser.userName;
     }
